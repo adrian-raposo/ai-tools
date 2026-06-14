@@ -1,0 +1,19 @@
+{
+  "name": "ai-tools",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:landing": "npm run dev --workspace=apps/landing",
+    "dev:ask-my-docs": "npm run dev --workspace=apps/ask-my-docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrian-raposo/ai-tools.git"
+  },
+  "author": "Adrian Raposo",
+  "license": "ISC"
+}
