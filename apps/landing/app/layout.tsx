@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { DM_Serif_Display, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -45,6 +46,15 @@ export default function RootLayout({
         className={`${inter.variable} ${dmSerif.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <script dangerouslySetInnerHTML={{ __html: "window.scrollTo(0,0);" }} />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-2SDZRNFRJR" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-2SDZRNFRJR');
+          `}
+        </Script>
         {children}
       </body>
     </html>
