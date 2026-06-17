@@ -83,10 +83,12 @@ export default function Home() {
         if (e.isIntersecting) e.target.classList.add("visible");
         else e.target.classList.remove("visible");
       }),
-      { threshold: 0.1, rootMargin: "0px 0px -60px 0px" }
+      { threshold: 0.05, rootMargin: "0px 0px -40px 0px" }
     );
     const timer = setTimeout(() => {
-      document.querySelectorAll(".reveal, .sdivider").forEach((el) => observer.observe(el));
+      document.querySelectorAll(".reveal, .sdivider").forEach((el) => {
+        if (!el.closest(".cbody")) observer.observe(el);
+      });
     }, 200);
     return () => { clearTimeout(timer); observer.disconnect(); };
   }, []);
@@ -380,7 +382,7 @@ export default function Home() {
               body: <ul className="cbullets"><li>Edited and developed technical books and learning content for a global technology publisher</li><li>Where it all started — building the foundation of technical communication and structured content thinking</li></ul>,
             },
           ].map((item) => (
-            <div key={item.id} className={`career-item reveal ${item.d}${openCareer === item.id ? " open" : ""}`}>
+            <div key={item.id} className={`career-item reveal no-hide ${item.d}${openCareer === item.id ? " open" : ""}`}>
               <div role="button" tabIndex={0} className="career-header"
                 onClick={() => setOpenCareer(openCareer === item.id ? null : item.id)}
                 onKeyDown={(e) => e.key === "Enter" && setOpenCareer(openCareer === item.id ? null : item.id)}>

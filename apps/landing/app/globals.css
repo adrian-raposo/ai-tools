@@ -65,6 +65,7 @@ section { max-width: 900px; margin: 0 auto; padding: 80px 48px; border-top: 1px 
 .reveal { opacity: 0; transform: translateY(40px) scale(0.97); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
 .reveal.from-left { transform: translateX(-30px) scale(0.97); }
 .reveal.visible { opacity: 1; transform: translate(0) scale(1); }
+.reveal.no-hide.visible { opacity: 1 !important; transform: translate(0) scale(1) !important; }
 .rd1 { transition-delay: 0.1s; }
 .rd2 { transition-delay: 0.2s; }
 .rd3 { transition-delay: 0.3s; }
