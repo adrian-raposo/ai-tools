@@ -223,3 +223,11 @@ footer { border-top: 1px solid var(--rule); text-align: center; padding: 28px 48
 .skill-chevron { font-size: 18px; color: var(--accent); font-weight: 300; line-height: 1; }
 .skill-pills { padding: 4px 20px 16px; display: flex; flex-wrap: wrap; gap: 6px; animation: slideDown 0.25s cubic-bezier(0.22,1,0.36,1); }
 .skill-pill { font-size: 12px; padding: 4px 12px; border-radius: 20px; background: var(--accent-light); color: var(--accent); border: 1px solid transparent; }
+
+/* Disable reveal flickering inside interactive sections */
+#sa-skills .reveal, #sa-skills .sdivider,
+#sa-career .reveal, #sa-career .sdivider {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
