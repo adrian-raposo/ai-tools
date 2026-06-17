@@ -76,21 +76,41 @@ export default function Home() {
     }
   }, []);
 
-  // Scroll reveal
+  // Scroll reveal — career items are one-way (never hide), others bidirectional
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const oneWayObserver = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          oneWayObserver.unobserve(e.target); // never remove visible
+        }
+      }),
+      { threshold: 0.05, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    const twoWayObserver = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
         if (e.isIntersecting) e.target.classList.add("visible");
         else e.target.classList.remove("visible");
       }),
       { threshold: 0.05, rootMargin: "0px 0px -40px 0px" }
     );
+
     const timer = setTimeout(() => {
       document.querySelectorAll(".reveal, .sdivider").forEach((el) => {
-        if (!el.closest(".cbody")) observer.observe(el);
+        if (el.closest("#sa-career") || el.classList.contains("no-hide")) {
+          oneWayObserver.observe(el);
+        } else {
+          twoWayObserver.observe(el);
+        }
       });
     }, 200);
-    return () => { clearTimeout(timer); observer.disconnect(); };
+
+    return () => {
+      clearTimeout(timer);
+      oneWayObserver.disconnect();
+      twoWayObserver.disconnect();
+    };
   }, []);
 
   // Progress bar + nav
@@ -205,6 +225,26 @@ export default function Home() {
     </>
   );
 
+  const [openSkill, setOpenSkill] = useState<string | null>(null);
+
+  const SkillGroup = ({ title, skills }: { title: string; skills: string[] }) => (
+    <div className={`skill-group reveal${openSkill === title ? " open" : ""}`}>
+      <button
+        type="button"
+        className="skill-group-header"
+        onClick={() => setOpenSkill(openSkill === title ? null : title)}
+      >
+        <span>{title}</span>
+        <span className="skill-chevron">{openSkill === title ? "−" : "+"}</span>
+      </button>
+      {openSkill === title && (
+        <div className="skill-pills">
+          {skills.map((s) => <span key={s} className="skill-pill">{s}</span>)}
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <>
       <div id="pbar" className="pbar" />
@@ -236,7 +276,7 @@ export default function Home() {
           </p>
           <h1 className="hero-name">Adrian<br /><em>Raposo</em></h1>
           <p className="hero-tagline">I make documentation work — <strong>for the people who read it, the teams who write it, and the products that need it.</strong></p>
-          <p className="hero-sub">12+ years building documentation practices in enterprise SaaS. Currently leading a team at Gainsight while building AI tools to automate the parts of documentation that shouldn&apos;t require a human.</p>
+          <p className="hero-sub">12+ years in enterprise SaaS documentation, including 4+ years leading technical writing teams. Currently at Gainsight — managing a team, driving documentation strategy, and using AI to help writers work faster and focus on what matters.</p>
           <div className="hero-links">
             <button type="button" className="btn btn-primary" onClick={() => scrollTo("sa-about")}>Read my story →</button>
             <button type="button" className="btn btn-chat" onClick={() => setOverlayOpen(true)}>💬 Poke the AI. Ask me stuff.</button>
@@ -433,6 +473,26 @@ export default function Home() {
           ))}
         </div>
 
+      </section>
+
+      {/* SKILLS */}
+      <section id="sa-skills">
+        <p className="slabel reveal from-left">Capabilities</p>
+        <h2 className="stitle reveal from-left rd1">Skills</h2>
+        <div className="sdivider reveal" />
+        <p className="skills-intro reveal">Keywords for the ctrl+F crowd — click any category to expand.</p>
+        <div className="skills-list">
+          {[
+            { title: "Leadership & Strategy", skills: ["Team Leadership", "Documentation Strategy", "Content Governance", "Agile", "Cross-Functional Collaboration", "Documentation Operations", "Recruiting & Hiring", "Performance Management", "Resource Planning"] },
+            { title: "AI & Automation", skills: ["Claude", "ChatGPT", "Prompt Engineering", "Workflow Automation", "Custom GPT Development", "AI-Assisted Content Review", "Lovable"] },
+            { title: "Digital Adoption Platforms", skills: ["Gainsight PX", "Whatfix", "Pendo", "Userpilot"] },
+            { title: "Documentation & Knowledge Platforms", skills: ["Adobe RoboHelp", "WordPress", "NICE CXone Expert", "Confluence", "Notion", "Jira"] },
+            { title: "Multimedia & Learning", skills: ["Camtasia", "Adobe Premiere Pro", "Adobe Captivate", "SnagIt", "Audacity", "LMS Content Development", "Instructional Design"] },
+            { title: "Design & Dev", skills: ["Figma", "HTML", "Next.js", "Adobe Photoshop", "Google Workspace"] },
+          ].map((group) => (
+            <SkillGroup key={group.title} title={group.title} skills={group.skills} />
+          ))}
+        </div>
       </section>
 
       {/* CONTACT */}

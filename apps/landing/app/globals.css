@@ -212,3 +212,14 @@ footer { border-top: 1px solid var(--rule); text-align: center; padding: 28px 48
   .reveal { opacity: 1; transform: none; transition: none; }
   .hero-eyebrow, .hero-name, .hero-tagline, .hero-sub, .hero-links { opacity: 1; animation: none; }
 }
+
+/* SKILLS */
+.skills-intro { font-size: 14px; color: var(--ink-muted); margin-bottom: 20px; }
+.skills-list { display: flex; flex-direction: column; gap: 8px; }
+.skill-group { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+.skill-group.open { border-color: var(--accent); }
+.skill-group-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--ink); text-align: left; transition: background 0.15s; }
+.skill-group-header:hover { background: var(--page); }
+.skill-chevron { font-size: 18px; color: var(--accent); font-weight: 300; line-height: 1; }
+.skill-pills { padding: 4px 20px 16px; display: flex; flex-wrap: wrap; gap: 6px; animation: slideDown 0.25s cubic-bezier(0.22,1,0.36,1); }
+.skill-pill { font-size: 12px; padding: 4px 12px; border-radius: 20px; background: var(--accent-light); color: var(--accent); border: 1px solid transparent; }
