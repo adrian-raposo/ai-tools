@@ -20,24 +20,26 @@ export default function Home() {
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [showOverlaySuggestions, setShowOverlaySuggestions] = useState(true);
 
-  const chatEndRef = useRef<HTMLDivElement>(null);
-  const overlayEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const overlayContainerRef = useRef<HTMLDivElement>(null);
   const overlayInputRef = useRef<HTMLTextAreaElement>(null);
   const chatHasMessages = useRef(false);
   const overlayHasMessages = useRef(false);
 
-  // Scroll chat ONLY after a new message is added
+  // Scroll chat container ONLY after a new message is added
   useEffect(() => {
     if (!chatHasMessages.current && chatMessages.length === 0) return;
     chatHasMessages.current = true;
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatMessages]);
+    const el = chatContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [chatMessages, chatLoading]);
 
   useEffect(() => {
     if (!overlayHasMessages.current && overlayMessages.length === 0) return;
     overlayHasMessages.current = true;
-    overlayEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [overlayMessages]);
+    const el = overlayContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [overlayMessages, overlayLoading]);
 
   // Typewriter
   useEffect(() => {
@@ -180,7 +182,7 @@ export default function Home() {
 
   const suggestions = ["What makes Adrian different?", "What AI tools has he built?", "How does he lead his team?", "What's his documentation philosophy?"];
 
-  const ChatBubbles = ({ messages, loading, endRef }: { messages: ChatMessage[], loading: boolean, endRef: React.RefObject<HTMLDivElement | null> }) => (
+  const ChatBubbles = ({ messages, loading }: { messages: ChatMessage[], loading: boolean }) => (
     <>
       <div className="chat-msg bot">
         <div className="cmavatar">🤖</div>
@@ -198,7 +200,6 @@ export default function Home() {
           <div className="cbubble"><div className="tdots"><span/><span/><span/></div></div>
         </div>
       )}
-      <div ref={endRef} />
     </>
   );
 
@@ -283,8 +284,8 @@ export default function Home() {
             <div className="chinfo"><h3>Adrian Raposo</h3><p>Technical Documentation Leader · Bengaluru</p></div>
             <div className="chstatus" />
           </div>
-          <div className="chat-msgs">
-            <ChatBubbles messages={chatMessages} loading={chatLoading} endRef={chatEndRef} />
+          <div className="chat-msgs" ref={chatContainerRef}>
+            <ChatBubbles messages={chatMessages} loading={chatLoading} />
           </div>
           {showSuggestions && (
             <div className="chat-suggs">
@@ -462,8 +463,8 @@ export default function Home() {
             <div className="chstatus" />
             <button type="button" className="covclose" onClick={() => setOverlayOpen(false)}>✕</button>
           </div>
-          <div className="chat-msgs">
-            <ChatBubbles messages={overlayMessages} loading={overlayLoading} endRef={overlayEndRef} />
+          <div className="chat-msgs" ref={overlayContainerRef}>
+            <ChatBubbles messages={overlayMessages} loading={overlayLoading} />
           </div>
           {showOverlaySuggestions && (
             <div className="chat-suggs">
