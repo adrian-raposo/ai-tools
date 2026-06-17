@@ -228,7 +228,7 @@ export default function Home() {
   const [openSkill, setOpenSkill] = useState<string | null>(null);
 
   const SkillGroup = ({ title, skills }: { title: string; skills: string[] }) => (
-    <div className={`skill-group reveal${openSkill === title ? " open" : ""}`}>
+    <div className={`skill-group${openSkill === title ? " open" : ""}`}>
       <button
         type="button"
         className="skill-group-header"
