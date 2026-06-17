@@ -76,18 +76,20 @@ export default function Home() {
     }
   }, []);
 
-  // Scroll reveal — career items are one-way (never hide), others bidirectional
+  // Scroll reveal
   useEffect(() => {
+    // One-way observer: animates in once, never hides (for interactive sections)
     const oneWayObserver = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
         if (e.isIntersecting) {
           e.target.classList.add("visible");
-          oneWayObserver.unobserve(e.target); // never remove visible
+          oneWayObserver.unobserve(e.target);
         }
       }),
       { threshold: 0.05, rootMargin: "0px 0px -40px 0px" }
     );
 
+    // Two-way observer: animates in and out (for regular sections)
     const twoWayObserver = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
         if (e.isIntersecting) e.target.classList.add("visible");
@@ -98,7 +100,8 @@ export default function Home() {
 
     const timer = setTimeout(() => {
       document.querySelectorAll(".reveal, .sdivider").forEach((el) => {
-        if (el.closest("#sa-career") || el.classList.contains("no-hide")) {
+        const inInteractive = el.closest("#sa-career") || el.closest("#sa-skills");
+        if (inInteractive) {
           oneWayObserver.observe(el);
         } else {
           twoWayObserver.observe(el);
@@ -380,9 +383,10 @@ export default function Home() {
               body: (
                 <div className="career-subcats">
                   {[
-                    { title: "Team Leadership", bullets: ["Lead and mentor a team of <strong>4 technical writers</strong> in a player-coach capacity — editorial reviews, career development, quality standards", "Participate in recruiting and hiring, performance appraisals, and growth plans", "Lead GenAI efforts team-wide: POCs, prompt engineering, AI-powered workflow optimization"] },
+                    { title: "Team Leadership", bullets: ["Lead and mentor a team of <strong>4 technical writers</strong> in a player-coach capacity — editorial reviews, career development, quality standards", "Actively involved in the full recruiting lifecycle — screening resumes, conducting interviews, assessing candidates, and onboarding new writers", "Conduct biannual performance appraisals and develop tailored growth plans for team members", "Lead GenAI efforts team-wide and org-wide: driving POCs, prompt engineering, and AI-powered workflow optimization"] },
                     { title: "Documentation Operations", bullets: ["Own the Help Center serving <strong>200K+ monthly users</strong> — content structure, publishing workflows, documentation lifecycle", "Lead documentation strategy across <strong>4 enterprise SaaS products</strong>", "Drive continuous improvements to Help Center UX, navigation, and search"] },
                     { title: "AI-Driven Initiatives", bullets: ["Built automation using Claude that <strong>migrated 400+ Help Center articles</strong> to structured Google Docs", "Added <strong>SEO metadata to 350+ articles</strong> using AI-assisted workflows", "Built a <strong>Release Notes Converter</strong> — transforms changelogs into structured release notes", "Built <strong>GenSearch</strong> — an internal AI search tool for the knowledge base", "Experimented with a <strong>Slack bot for knowledge base Q&A</strong>"] },
+                    { title: "Tools & Vendor Evaluation", bullets: ["Assess and evaluate documentation tools and platforms — running POCs, comparing vendors, and making recommendations based on team needs and product fit", "Previously led evaluation and onboarding of <strong>DAP tools</strong> including Gainsight PX and Whatfix — from vendor assessment through implementation", "Stay current on the documentation tooling landscape and proactively identify opportunities to improve team workflows"] },
                     { title: "Digital Adoption & In-App Guidance", bullets: ["Implement in-app guidance using <strong>Gainsight PX and Whatfix</strong>", "Create UX copy for new features; perform usability testing"] },
                     { title: "Analytics & Content Health", bullets: ["Lead content health initiatives using AI and data analysis — outdated content, broken links, SEO gaps", "Use analytics to drive evidence-based improvements to documentation strategy"] },
                   ].map((sub) => (
