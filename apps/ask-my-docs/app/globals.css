@@ -13,7 +13,7 @@
 .app-header {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0;
 }
 .app-back {
   display: inline-flex;
@@ -43,7 +43,7 @@
   color: #1a1a1a;
   letter-spacing: -0.02em;
   line-height: 1.1;
-  margin-top: 4px;
+  margin-bottom: 12px;
 }
 .app-title em { font-style: italic; color: #4a7c6f; font-weight: 400; }
 .app-desc {
