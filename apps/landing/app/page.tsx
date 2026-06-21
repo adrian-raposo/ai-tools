@@ -464,7 +464,7 @@ export default function Home() {
             <div className="tfooter"><span className="ttag">RAG · EMBEDDINGS · GROQ</span><span className="tarrow">→</span></div>
           </a>
           {[
-            { icon: "📋", title: "Release Notes Converter", desc: "Transform raw engineering changelogs into structured, audience-ready release notes. Handles tone, format, and targeting automatically." },
+            { icon: "📋", title: "Release Notes Converter", desc: "Transform raw engineering changelogs into structured, audience-ready release notes. Handles tone, format, and targeting automatically.", link: "https://ai-tools-release-notes-generator.vercel.app", tag: "GROQ · AI GENERATION" },
             { icon: "✍️", title: "Style Guide Enforcer", desc: "Paste a document and check it against a style guide. AI flags violations and suggests rewrites for cleaner, more consistent documentation." },
             { icon: "📊", title: "Doc Complexity Scorer", desc: "Analyze readability, jargon density, and sentence complexity. Get AI-powered suggestions to simplify content for your target audience.", link: "https://ai-tools-docs-complexity-scorer.vercel.app", tag: "MSTP · GROQ · AI ANALYSIS" },
           ].map((t, i) => (
