@@ -79,6 +79,14 @@ export default function Home() {
     <main className="min-h-screen bg-stone-50 py-12 px-4">
       <div className="max-w-2xl mx-auto flex flex-col gap-8">
 
+        {/* Back link */}
+        <div>
+          <a href="https://ai-tools-landing-alpha.vercel.app" className="inline-flex items-center gap-1 text-xs text-stone-400 hover:text-stone-600 transition-colors font-mono tracking-wide uppercase">
+            ← All Tools
+          </a>
+          <p className="text-xs text-stone-400 font-mono tracking-wide uppercase mt-1">AI Tools · Adrian Raposo</p>
+        </div>
+
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl font-semibold text-stone-800 tracking-tight">

@@ -457,7 +457,7 @@ export default function Home() {
         <div className="sdivider reveal" />
         <p className="tools-intro reveal">Real tools solving real documentation problems — built with Next.js, Claude, and Groq. Including this site itself.</p>
         <div className="tools-grid">
-          <a href="https://ai-tools-ask-my-docs-six.vercel.app" target="_blank" rel="noopener noreferrer" className="tool-card reveal rd1">
+          <a href="https://ai-tools-ask-my-docs-six.vercel.app" className="tool-card reveal rd1">
             <div className="ticon">📄</div>
             <h3 className="ttitle">Ask My Docs</h3>
             <p className="tdesc">Upload any markdown or text documentation and ask questions in plain language. Uses in-browser embeddings and Groq&apos;s Llama model — answers sourced from your content, always cited.</p>
@@ -466,14 +466,14 @@ export default function Home() {
           {[
             { icon: "📋", title: "Release Notes Converter", desc: "Transform raw engineering changelogs into structured, audience-ready release notes. Handles tone, format, and targeting automatically." },
             { icon: "✍️", title: "Style Guide Enforcer", desc: "Paste a document and check it against a style guide. AI flags violations and suggests rewrites for cleaner, more consistent documentation." },
-            { icon: "📊", title: "Doc Complexity Scorer", desc: "Analyze readability, jargon density, and sentence complexity. Get AI-powered suggestions to simplify content for your target audience.", link: "https://ai-tools-docs-complexity-scorer.vercel.app" },
+            { icon: "📊", title: "Doc Complexity Scorer", desc: "Analyze readability, jargon density, and sentence complexity. Get AI-powered suggestions to simplify content for your target audience.", link: "https://ai-tools-docs-complexity-scorer.vercel.app", tag: "MSTP · GROQ · AI ANALYSIS" },
           ].map((t, i) => (
             t.link ? (
-              <a key={t.title} href={t.link} target="_blank" rel="noopener noreferrer" className={`tool-card reveal rd${(i % 2) + 1}`}>
+              <a key={t.title} href={t.link} className={`tool-card reveal rd${(i % 2) + 1}`}>
                 <div className="ticon">{t.icon}</div>
                 <h3 className="ttitle">{t.title}</h3>
                 <p className="tdesc">{t.desc}</p>
-                <div className="tfooter"><span className="ttag">LIVE</span><span className="tarrow">→</span></div>
+                <div className="tfooter"><span className="ttag">{(t as {tag?: string}).tag || "LIVE"}</span><span className="tarrow">→</span></div>
               </a>
             ) : (
               <div key={t.title} className={`tool-card tool-wip reveal rd${(i % 2) + 1}`}>
