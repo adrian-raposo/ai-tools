@@ -466,14 +466,23 @@ export default function Home() {
           {[
             { icon: "📋", title: "Release Notes Converter", desc: "Transform raw engineering changelogs into structured, audience-ready release notes. Handles tone, format, and targeting automatically." },
             { icon: "✍️", title: "Style Guide Enforcer", desc: "Paste a document and check it against a style guide. AI flags violations and suggests rewrites for cleaner, more consistent documentation." },
-            { icon: "📊", title: "Doc Complexity Scorer", desc: "Analyze readability, jargon density, and sentence complexity. Get AI-powered suggestions to simplify content for your target audience." },
+            { icon: "📊", title: "Doc Complexity Scorer", desc: "Analyze readability, jargon density, and sentence complexity. Get AI-powered suggestions to simplify content for your target audience.", link: "https://ai-tools-docs-complexity-scorer.vercel.app" },
           ].map((t, i) => (
-            <div key={t.title} className={`tool-card tool-wip reveal rd${(i % 2) + 1}`}>
-              <div className="ticon">{t.icon}</div>
-              <h3 className="ttitle">{t.title}</h3>
-              <p className="tdesc">{t.desc}</p>
-              <div className="tfooter"><span className="wip-badge">COMING SOON</span></div>
-            </div>
+            t.link ? (
+              <a key={t.title} href={t.link} target="_blank" rel="noopener noreferrer" className={`tool-card reveal rd${(i % 2) + 1}`}>
+                <div className="ticon">{t.icon}</div>
+                <h3 className="ttitle">{t.title}</h3>
+                <p className="tdesc">{t.desc}</p>
+                <div className="tfooter"><span className="ttag">LIVE</span><span className="tarrow">→</span></div>
+              </a>
+            ) : (
+              <div key={t.title} className={`tool-card tool-wip reveal rd${(i % 2) + 1}`}>
+                <div className="ticon">{t.icon}</div>
+                <h3 className="ttitle">{t.title}</h3>
+                <p className="tdesc">{t.desc}</p>
+                <div className="tfooter"><span className="wip-badge">COMING SOON</span></div>
+              </div>
+            )
           ))}
         </div>
 
