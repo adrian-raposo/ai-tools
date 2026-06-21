@@ -79,7 +79,7 @@ export default function Home() {
         {/* Back nav */}
         <div>
           <a
-            href="https://ai-tools-landing-alpha.vercel.app/#sa-tools"
+            href="https://adrian-raposo.vercel.app/#sa-tools"
             className="inline-flex items-center gap-1 text-xs text-stone-400 hover:text-stone-600 transition-colors font-mono tracking-widest uppercase"
           >
             ← All Tools
