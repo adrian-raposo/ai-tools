@@ -73,8 +73,7 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen bg-[#fafaf8] px-4 py-10">
-      <div className="max-w-2xl mx-auto flex flex-col gap-8">
+    <main className="app-wrap">
 
         {/* Back nav */}
         <div>
@@ -121,12 +120,9 @@ export default function Home() {
           />
         </div>
 
-        {/* Footer */}
-        <p className="text-center text-xs text-stone-300 font-mono tracking-wide">
-          Embeddings run in your browser · Answers powered by Groq · Built by Adrian Raposo
-        </p>
-
-      </div>
+      <footer className="app-footer">
+        Embeddings run in your browser · Answers powered by Groq · Built by Adrian Raposo
+      </footer>
     </main>
   );
 }

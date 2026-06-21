@@ -1,26 +1,61 @@
-@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── SHARED HEADER (matches doc complexity scorer) ── */
+.app-wrap {
+  min-height: 100vh;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 64px 48px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.app-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.app-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-family: monospace;
+  color: #888;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  transition: color 0.2s;
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.app-back:hover { color: #4a7c6f; }
+.app-eyebrow {
+  font-family: monospace;
+  font-size: 11px;
+  color: #4a7c6f;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.app-title {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.app-title em { font-style: italic; color: #4a7c6f; font-weight: 400; }
+.app-desc {
+  font-size: 14px;
+  color: #888;
+  max-width: 520px;
+  line-height: 1.7;
+  margin-top: 4px;
+}
+.app-footer {
+  text-align: center;
+  font-family: monospace;
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 0.06em;
+  padding-top: 16px;
+  border-top: 1px solid #e8e6e0;
 }
