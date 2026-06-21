@@ -35,17 +35,14 @@ export default function Home() {
       setIsLoading(true);
 
       try {
-        // Get query embedding
         const { pipeline } = await import("@xenova/transformers");
         const embedder = await pipeline("feature-extraction", "Xenova/all-MiniLM-L6-v2");
         const output = await embedder(question, { pooling: "mean", normalize: true });
         const queryEmbedding = Array.from(output.data as Float32Array);
 
-        // Find relevant chunks
         const relevant = findRelevantChunks(queryEmbedding, chunks);
         const sources = [...new Set(relevant.map((c) => c.source))];
 
-        // Call API
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -76,40 +73,46 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen bg-stone-50 py-12 px-4">
+    <main className="min-h-screen bg-[#fafaf8] px-4 py-10">
       <div className="max-w-2xl mx-auto flex flex-col gap-8">
 
-        {/* Back link */}
+        {/* Back nav */}
         <div>
-          <a href="https://ai-tools-landing-alpha.vercel.app" className="inline-flex items-center gap-1 text-xs text-stone-400 hover:text-stone-600 transition-colors font-mono tracking-wide uppercase">
+          <a
+            href="https://ai-tools-landing-alpha.vercel.app/#sa-tools"
+            className="inline-flex items-center gap-1 text-xs text-stone-400 hover:text-stone-600 transition-colors font-mono tracking-widest uppercase"
+          >
             ← All Tools
           </a>
-          <p className="text-xs text-stone-400 font-mono tracking-wide uppercase mt-1">AI Tools · Adrian Raposo</p>
-        </div>
-
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-semibold text-stone-800 tracking-tight">
-            Ask My Docs
-          </h1>
-          <p className="mt-2 text-stone-400 text-sm">
-            Upload your documentation and ask questions — answers come straight from your content.
+          <p className="text-xs text-stone-400 font-mono tracking-widest uppercase mt-1">
+            AI Tools · Adrian Raposo
           </p>
         </div>
 
-        {/* Upload */}
+        {/* Header */}
+        <div>
+          <h1 className="text-4xl font-bold text-stone-900 tracking-tight">
+            Ask My <span className="font-normal italic text-[#4a7c6f]">Docs</span>
+          </h1>
+          <p className="mt-3 text-stone-500 text-base leading-relaxed max-w-lg">
+            Upload your documentation and ask questions in plain language —
+            answers come straight from your content, with sources always cited.
+          </p>
+        </div>
+
+        {/* Upload card */}
         <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-6">
-          <h2 className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-4">
+          <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-4">
             Documents
-          </h2>
+          </p>
           <FileUpload onDocsLoaded={handleDocsLoaded} isProcessing={isProcessing} />
         </div>
 
-        {/* Chat */}
+        {/* Chat card */}
         <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-6">
-          <h2 className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-4">
+          <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-4">
             Ask a question
-          </h2>
+          </p>
           <ChatInterface
             messages={messages}
             onSend={handleQuestion}
@@ -119,8 +122,8 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-xs text-stone-300">
-          Embeddings run in your browser · Answers powered by Groq
+        <p className="text-center text-xs text-stone-300 font-mono tracking-wide">
+          Embeddings run in your browser · Answers powered by Groq · Built by Adrian Raposo
         </p>
 
       </div>
