@@ -125,7 +125,7 @@ export default function Home() {
       const nav = document.getElementById("mainnav");
       if (nav) nav.classList.toggle("scrolled", window.scrollY > 20);
       // Active nav
-      const ids = ["sa-about", "sa-chat", "sa-how", "sa-career", "sa-tools", "sa-contact"];
+      const ids = ["sa-about", "sa-chat", "sa-how", "sa-career", "sa-tools", "sa-portfolio", "sa-contact"];
       let active = "sa-home";
       if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80) {
         active = "sa-contact";
@@ -229,6 +229,7 @@ export default function Home() {
   );
 
   const [openSkill, setOpenSkill] = useState<string | null>(null);
+  const [showMoreVideos, setShowMoreVideos] = useState(false);
 
   const SkillGroup = ({ title, skills }: { title: string; skills: string[] }) => (
     <div className={`skill-group${openSkill === title ? " open" : ""}`}>
@@ -260,6 +261,7 @@ export default function Home() {
             { s: "sa-how", label: "How I Work", action: () => scrollTo("sa-how") },
             { s: "sa-career", label: "Career", action: () => scrollTo("sa-career") },
             { s: "sa-tools", label: "AI Tools", action: () => scrollTo("sa-tools") },
+            { s: "sa-portfolio", label: "Portfolio", action: () => scrollTo("sa-portfolio") },
             { s: "sa-contact", label: "Contact", action: () => scrollTo("sa-contact") },
           ].map((item) => (
             <li key={item.s}>
@@ -464,7 +466,7 @@ export default function Home() {
             <div className="tfooter"><span className="ttag">RAG · EMBEDDINGS · GROQ</span><span className="tarrow">→</span></div>
           </a>
           {[
-            { icon: "📋", title: "Release Notes Converter", desc: "Transform raw engineering changelogs into structured, audience-ready release notes. Handles tone, format, and targeting automatically.", link: "https://ai-tools-release-notes-generator.vercel.app", tag: "GROQ · AI GENERATION" },
+            { icon: "📋", title: "Release Notes Generator", desc: "Transform raw engineering changelogs into structured, audience-ready release notes. Handles tone, format, and targeting automatically.", link: "https://ai-tools-release-notes-generator.vercel.app", tag: "GROQ · AI GENERATION" },
             { icon: "✍️", title: "Style Guide Enforcer", desc: "Paste a document and check it against a style guide. AI flags violations and suggests rewrites for cleaner, more consistent documentation." },
             { icon: "📊", title: "Doc Complexity Scorer", desc: "Analyze readability, jargon density, and sentence complexity. Get AI-powered suggestions to simplify content for your target audience.", link: "https://ai-tools-docs-complexity-scorer.vercel.app", tag: "MSTP · GROQ · AI ANALYSIS" },
           ].map((t, i) => (
@@ -486,6 +488,110 @@ export default function Home() {
           ))}
         </div>
 
+      </section>
+
+      {/* PORTFOLIO */}
+      <section id="sa-portfolio">
+        <p className="slabel reveal from-left">Work samples</p>
+        <h2 className="stitle reveal from-left rd1">Documentation &amp; Video</h2>
+        <div className="sdivider reveal" />
+        <p className="tools-intro reveal">Live documentation sites I&apos;ve built and managed — plus video content I&apos;ve scripted, recorded, voiced, edited, and published end to end.</p>
+
+        {/* Docs */}
+        <div className="portfolio-docs reveal rd1">
+          <p className="portfolio-sublabel">Documentation</p>
+          <div className="docs-grid">
+            <a href="https://support.gainsight.com/PX" target="_blank" rel="noopener noreferrer" className="doc-card">
+              <div className="doc-card-top">
+                <div className="doc-logo" style={{ background: "#e8f5e9", color: "#2e7d32" }}>G</div>
+                <div>
+                  <div className="doc-company">Gainsight PX</div>
+                  <div className="doc-role">Lead Writer &amp; Team Manager · 2022 — present</div>
+                </div>
+              </div>
+              <p className="doc-desc">Manage the entire Gainsight support site (200K+ monthly users) and lead a team of writers. Personally author and maintain all PX documentation — release notes, feature guides, and onboarding content published every sprint.</p>
+              <div className="doc-tags">
+                <span className="doc-tag">Help Center</span>
+                <span className="doc-tag">Release Notes</span>
+                <span className="doc-tag">Team Management</span>
+                <span className="doc-tag">200K+ Users</span>
+              </div>
+              <div className="doc-link">support.gainsight.com/PX →</div>
+            </a>
+            <a href="https://www.jdomni.com/support" target="_blank" rel="noopener noreferrer" className="doc-card">
+              <div className="doc-card-top">
+                <div className="doc-logo" style={{ background: "#fce4ec", color: "#c62828" }}>J</div>
+                <div>
+                  <div className="doc-company">JD Omni · Justdial</div>
+                  <div className="doc-role">Sole Technical Writer · 2015 — 2017</div>
+                </div>
+              </div>
+              <p className="doc-desc">First and only technical writer at Justdial&apos;s enterprise product. Built the entire information architecture from scratch, created all documentation solo, then hired and managed 2 writers as the product scaled.</p>
+              <div className="doc-tags">
+                <span className="doc-tag">Built from Scratch</span>
+                <span className="doc-tag">Information Architecture</span>
+                <span className="doc-tag">Hiring & Mentoring</span>
+              </div>
+              <div className="doc-link">jdomni.com/support →</div>
+            </a>
+          </div>
+        </div>
+
+        {/* Videos */}
+        <div className="portfolio-videos reveal rd2">
+          <p className="portfolio-sublabel">Video Production</p>
+          <p className="portfolio-video-note">Scripted, recorded, voiced, edited in Adobe Premiere Pro, and published — end to end.</p>
+          <div className="videos-grid">
+            {[
+              { id: "ViuQEekACQg", title: "Lease Rebook Workflow", type: "Tutorial" },
+              { id: "ZwfV7bQLpJk", title: "Logging into LeaseWave", type: "Tutorial" },
+              { id: "KwDfSn5taXk", title: "OKR Explainer", type: "Org Video" },
+              { id: "tfKBH9tMhGk", title: "Guidelines for Manager Evaluation", type: "Org Video" },
+              { id: "4LcyQc4sgWY", title: "Making Payments in Customer Portal", type: "Tutorial" },
+            ].map((v) => (
+              <a key={v.id} href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" className="video-card">
+                <div className="video-thumb">
+                  <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt={v.title} loading="lazy" />
+                  <div className="video-play">▶</div>
+                </div>
+                <div className="video-meta">
+                  <span className="video-type">{v.type}</span>
+                  <p className="video-title">{v.title}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* Show more toggle */}
+          {!showMoreVideos && (
+            <button type="button" className="show-more-btn" onClick={() => setShowMoreVideos(true)}>
+              + Show 6 more videos
+            </button>
+          )}
+          {showMoreVideos && (
+            <div className="videos-grid videos-grid-more">
+              {[
+                { id: "pmdIwS6xEdo", title: "Accessing LeaseWave Journeys", type: "Tutorial" },
+                { id: "hO-6b0bQj9I", title: "POSH Overview", type: "Org Video" },
+                { id: "c1i2ChRCiDM", title: "Writing an Effective Feedback", type: "Org Video" },
+                { id: "iH1T5swN6O4", title: "Annual Review Process", type: "Org Video" },
+                { id: "wgqQo3RvdBw", title: "Having Effective Meetings", type: "Org Video" },
+                { id: "Fy5sgsjCp3U", title: "Introduction to Leasing MQ", type: "Tutorial" },
+              ].map((v) => (
+                <a key={v.id} href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" className="video-card">
+                  <div className="video-thumb">
+                    <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt={v.title} loading="lazy" />
+                    <div className="video-play">▶</div>
+                  </div>
+                  <div className="video-meta">
+                    <span className="video-type">{v.type}</span>
+                    <p className="video-title">{v.title}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       {/* SKILLS */}
