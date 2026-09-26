@@ -21,7 +21,7 @@ Rules:
 - avgSentenceLength: integer, MSTP target under 25
 - passiveVoicePercent: 0-100
 - jargonDensity: 0-100
-- secondPersonPercent: 0-100, MSTP prefers "you" over "the user"
+- secondPersonPercent: 0-100
 - violations: max 3 items, severity is "low" "medium" or "high", sentences under 80 chars, no URLs
 - jargonTerms: max 5 items
 - suggestions: max 3 items, type is one of "passive" "jargon" "length" "person" "clarity"
@@ -43,33 +43,40 @@ Rules:
     });
 
     const data = await groqRes.json();
-    console.log("Groq status:", groqRes.status);
 
     if (!groqRes.ok) {
-      console.error("Groq error:", data.error?.message);
       return NextResponse.json({ error: data.error?.message ?? "Groq request failed." }, { status: 500 });
     }
 
     const raw = data.choices?.[0]?.message?.content ?? "";
-    console.log("Raw:", raw.slice(0, 300));
 
-    // Strip <think>...</think> blocks that reasoning models emit
+    // Return raw for debugging
+    if (!raw) return NextResponse.json({ error: "Empty response from model", raw }, { status: 500 });
+
+    // Strip think tags
     const stripped = raw.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
 
+    // If still no JSON, return the raw so we can see it
     const match = stripped.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error("No JSON in response");
+    if (!match) {
+      return NextResponse.json({ error: "No JSON found", raw: stripped.slice(0, 500) }, { status: 500 });
+    }
 
     let parsed;
     try {
       parsed = JSON.parse(match[0]);
     } catch {
       const fixed = match[0].replace(/,\s*([\]}])/g, "$1");
-      parsed = JSON.parse(fixed);
+      try {
+        parsed = JSON.parse(fixed);
+      } catch (e) {
+        return NextResponse.json({ error: "JSON parse failed", raw: match[0].slice(0, 500) }, { status: 500 });
+      }
     }
 
     return NextResponse.json(parsed);
   } catch (err) {
-    console.error("Analysis error:", err);
-    return NextResponse.json({ error: "Analysis failed. Please try again." }, { status: 500 });
+    const msg = err instanceof Error ? err.message : "Unknown error";
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
