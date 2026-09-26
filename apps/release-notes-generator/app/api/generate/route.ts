@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export const maxDuration = 30;
+
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 async function callGroq(apiKey: string, system: string, user: string): Promise<string> {
@@ -7,7 +9,7 @@ async function callGroq(apiKey: string, system: string, user: string): Promise<s
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "openai/gpt-oss-120b",
+      model: "qwen/qwen3.8-27b",
       messages: [{ role: "system", content: system }, { role: "user", content: user }],
       temperature: 0.2,
       max_tokens: 400,
