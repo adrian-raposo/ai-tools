@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
+function stripThinking(raw: string): string {
+  // Remove <think>...</think> blocks emitted by reasoning models
+  return raw.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+}
+
 async function callGroq(apiKey: string, system: string, user: string): Promise<string> {
   const res = await fetch(GROQ_URL, {
     method: "POST",
@@ -15,7 +20,8 @@ async function callGroq(apiKey: string, system: string, user: string): Promise<s
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error?.message ?? "Groq error");
-  return data.choices?.[0]?.message?.content ?? "";
+  const raw = data.choices?.[0]?.message?.content ?? "";
+  return stripThinking(raw);
 }
 
 export async function POST(req: NextRequest) {

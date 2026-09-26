@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
   const audienceLabel = audience === "general" ? "non-technical readers" : audience === "technical" ? "developers" : "mixed audiences";
 
-  const systemPrompt = `You are a technical writing expert scoring documentation against the Microsoft Style Guide (MSTP). Audience: ${audienceLabel}. Return ONLY valid JSON, no markdown, no code fences.
+  const systemPrompt = `You are a technical writing expert scoring documentation against the Microsoft Style Guide (MSTP). Audience: ${audienceLabel}. Return ONLY valid JSON, no markdown, no code fences, no thinking, no explanation.
 
 Return exactly this structure:
 {"mstpScore":0,"grade":"Good","cognitiveLoad":"Medium","cognitiveLoadReason":"short reason","metrics":{"avgSentenceLength":0,"passiveVoicePercent":0,"jargonDensity":0,"secondPersonPercent":0},"violations":[{"sentence":"short sentence","rule":"Use active voice","detail":"short fix","severity":"high"}],"jargonTerms":["word"],"suggestions":[{"original":"short phrase","rewrite":"better version","rule":"Use active voice","type":"passive"}],"summary":"Two sentences max."}
@@ -51,9 +51,12 @@ Rules:
     }
 
     const raw = data.choices?.[0]?.message?.content ?? "";
-    console.log("Raw:", raw);
+    console.log("Raw:", raw.slice(0, 300));
 
-    const match = raw.match(/\{[\s\S]*\}/);
+    // Strip <think>...</think> blocks that reasoning models emit
+    const stripped = raw.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+
+    const match = stripped.match(/\{[\s\S]*\}/);
     if (!match) throw new Error("No JSON in response");
 
     let parsed;
