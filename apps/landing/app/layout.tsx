@@ -24,11 +24,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Adrian Raposo — Technical Documentation Leader",
   description:
-    "Technical Documentation Leader with 12+ years in enterprise SaaS. Leading teams, building AI tools, and making documentation work.",
+    "Technical Documentation Leader with 13+ years in enterprise SaaS. Leading teams, building AI tools, and making documentation work.",
   openGraph: {
     title: "Adrian Raposo — Technical Documentation Leader",
     description:
-      "12+ years building documentation practices in enterprise SaaS. Currently leading a team at Gainsight while building AI tools to automate documentation workflows.",
+      "13+ years building documentation practices in enterprise SaaS. Currently leading a team at Gainsight while building AI tools to automate documentation workflows.",
     url: "https://adrian-raposo.vercel.app",
     siteName: "Adrian Raposo",
     type: "website",

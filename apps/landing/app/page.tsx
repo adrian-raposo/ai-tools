@@ -281,7 +281,7 @@ export default function Home() {
           </p>
           <h1 className="hero-name">Adrian<br /><em>Raposo</em></h1>
           <p className="hero-tagline">I make documentation work — <strong>for the people who read it, the teams who write it, and the products that need it.</strong></p>
-          <p className="hero-sub">12+ years in enterprise SaaS documentation, including 4+ years leading technical writing teams. Currently at Gainsight — managing a team, driving documentation strategy, and using AI to help writers work faster and focus on what matters.</p>
+          <p className="hero-sub">13+ years in enterprise SaaS documentation, including 4+ years leading technical writing teams. Currently at Gainsight — managing a team, driving documentation strategy, and using AI to help writers work faster and focus on what matters.</p>
           <div className="hero-links">
             <button type="button" className="btn btn-primary" onClick={() => scrollTo("sa-about")}>Read my story →</button>
             <button type="button" className="btn btn-chat" onClick={() => setOverlayOpen(true)}>💬 Poke the AI. Ask me stuff.</button>
@@ -299,13 +299,13 @@ export default function Home() {
         <div className="about-body">
           <div className="about-text reveal">
             <p>I started my career at <strong>Packt Publishing</strong> editing technical books, moved through consumer tech and enterprise IT, and eventually became the lone Technical Writer for entire products — building documentation modules from scratch, solo. That experience taught me something important: <em>good documentation is never just about writing.</em> It&apos;s about understanding users, anticipating confusion, and making complex things feel simple.</p>
-            <p>Over 12 years, I&apos;ve been a team of one and a team lead. I&apos;ve scripted, recorded, and edited training videos. I&apos;ve managed email campaigns, handled customer feedback, built e-learning courses on LMS platforms. At <strong>Gainsight</strong>, I now lead a team of technical writers while administering a Help Center serving 200K+ monthly users and driving our AI initiatives.</p>
+            <p>Over 13 years, I&apos;ve been a team of one and a team lead. I&apos;ve scripted, recorded, and edited training videos. I&apos;ve managed email campaigns, handled customer feedback, built e-learning courses on LMS platforms. At <strong>Gainsight</strong>, I now lead a team of technical writers while administering a Help Center serving 200K+ monthly users and driving our AI initiatives.</p>
             <p>My career has been defined by <strong>continuous learning and adaptability</strong>. I lean into new challenges, run POCs, and roll up my sleeves to build what doesn&apos;t exist yet. Right now, that means using Claude and AI tooling to automate the tedious parts of documentation — so my team can spend more time on the work that actually requires human judgment.</p>
             <p>I approach leadership the same way I approach content: <em>with empathy.</em> Understanding what users need, or what my team needs to succeed, has always been my compass.</p>
           </div>
           <div className="about-aside reveal rd2">
             {[
-              { num: "12", count: true, label: "years in enterprise SaaS documentation" },
+              { num: "13", count: true, label: "years in enterprise SaaS documentation" },
               { num: "4", count: true, label: "years leading technical writing teams" },
               { num: "200K+", count: false, label: "monthly Help Center users" },
               { num: "5", count: true, label: "companies, always the person who owns the docs" },
