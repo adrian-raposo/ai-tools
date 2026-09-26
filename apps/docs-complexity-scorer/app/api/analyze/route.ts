@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
   const audienceLabel = audience === "general" ? "non-technical readers" : audience === "technical" ? "developers" : "mixed audiences";
 
-  const systemPrompt = `You are a technical writing expert scoring documentation against the Microsoft Style Guide (MSTP). Audience: ${audienceLabel}. Return ONLY valid JSON, no markdown, no code fences, no thinking, no explanation.
+  const systemPrompt = `You are a technical writing expert scoring documentation against the Microsoft Style Guide (MSTP). Audience: ${audienceLabel}. Return ONLY valid JSON, no markdown, no code fences, no explanation.
 
 Return exactly this structure:
 {"mstpScore":0,"grade":"Good","cognitiveLoad":"Medium","cognitiveLoadReason":"short reason","metrics":{"avgSentenceLength":0,"passiveVoicePercent":0,"jargonDensity":0,"secondPersonPercent":0},"violations":[{"sentence":"short sentence","rule":"Use active voice","detail":"short fix","severity":"high"}],"jargonTerms":["word"],"suggestions":[{"original":"short phrase","rewrite":"better version","rule":"Use active voice","type":"passive"}],"summary":"Two sentences max."}
@@ -48,18 +48,16 @@ Rules:
       return NextResponse.json({ error: data.error?.message ?? "Groq request failed." }, { status: 500 });
     }
 
+    // Read content directly — reasoning is in a separate field
     const raw = data.choices?.[0]?.message?.content ?? "";
 
-    // Return raw for debugging
-    if (!raw) return NextResponse.json({ error: "Empty response from model", raw }, { status: 500 });
+    if (!raw) {
+      return NextResponse.json({ error: "Empty response from model" }, { status: 500 });
+    }
 
-    // Strip think tags
-    const stripped = raw.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
-
-    // If still no JSON, return the raw so we can see it
-    const match = stripped.match(/\{[\s\S]*\}/);
+    const match = raw.match(/\{[\s\S]*\}/);
     if (!match) {
-      return NextResponse.json({ error: "No JSON found", raw: stripped.slice(0, 500) }, { status: 500 });
+      return NextResponse.json({ error: `No JSON found in: ${raw.slice(0, 300)}` }, { status: 500 });
     }
 
     let parsed;
@@ -67,11 +65,7 @@ Rules:
       parsed = JSON.parse(match[0]);
     } catch {
       const fixed = match[0].replace(/,\s*([\]}])/g, "$1");
-      try {
-        parsed = JSON.parse(fixed);
-      } catch (e) {
-        return NextResponse.json({ error: "JSON parse failed", raw: match[0].slice(0, 500) }, { status: 500 });
-      }
+      parsed = JSON.parse(fixed);
     }
 
     return NextResponse.json(parsed);

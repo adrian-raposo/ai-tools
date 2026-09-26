@@ -2,11 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
-function stripThinking(raw: string): string {
-  // Remove <think>...</think> blocks emitted by reasoning models
-  return raw.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
-}
-
 async function callGroq(apiKey: string, system: string, user: string): Promise<string> {
   const res = await fetch(GROQ_URL, {
     method: "POST",
@@ -20,8 +15,8 @@ async function callGroq(apiKey: string, system: string, user: string): Promise<s
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error?.message ?? "Groq error");
-  const raw = data.choices?.[0]?.message?.content ?? "";
-  return stripThinking(raw);
+  // Read content directly — reasoning models put reasoning in a separate field
+  return data.choices?.[0]?.message?.content ?? "";
 }
 
 export async function POST(req: NextRequest) {
@@ -43,8 +38,8 @@ export async function POST(req: NextRequest) {
 
   const antiHallucination = `CRITICAL RULES:
 - Only describe what is explicitly stated in the source notes. Do NOT invent benefits, metrics, outcomes, or explanations not present in the input.
-- If the source says "fixed export timeout" — write exactly that. Do not say "improved reliability" unless stated.
-- Do not add context, examples, or elaboration that isn't in the source.`;
+- If the source says "fixed export timeout" write exactly that. Do not say "improved reliability" unless stated.
+- Do not add context, examples, or elaboration that is not in the source.`;
 
   const sanitizeRules = `SANITIZATION RULES:
 - Remove all internal ticket IDs (e.g. PROD-1234), customer names, employee names, project codenames, and internal jargon.
@@ -55,11 +50,11 @@ export async function POST(req: NextRequest) {
 Do not create sections for empty categories. Do not merge categories.`;
 
   const mstpRules = `MICROSOFT STYLE GUIDE (MSTP) RULES:
-- Use active voice. Write "We added X" or "X lets you do Y", not "X was added" or "X has been introduced".
-- Use second person. Write "you can now" not "users can now" or "customers can now".
-- Use sentence case for all headings. Write "New features" not "New Features".
-- Use present tense. Write "X lets you" not "X will let you" or "X has been updated to".
-- No Latin abbreviations. Write "for example" not "e.g.", "that is" not "i.e.".
+- Use active voice. Write "We added X" or "X lets you do Y", not "X was added".
+- Use second person. Write "you can now" not "users can now".
+- Use sentence case for all headings.
+- Use present tense.
+- No Latin abbreviations. Write "for example" not "e.g.".
 - Use the Oxford comma in lists.
 - No exclamation marks.
 - Lead with the user benefit, not the engineering action.`;
@@ -68,14 +63,12 @@ Do not create sections for empty categories. Do not merge categories.`;
 - Use active voice where possible.
 - Use sentence case for all headings.
 - Use present tense.
-- No Latin abbreviations. Write "for example" not "e.g.", "that is" not "i.e.".
+- No Latin abbreviations.
 - Use the Oxford comma in lists.
-- No exclamation marks.
-- Second person and contractions are optional for technical/developer audiences.`;
+- No exclamation marks.`;
 
   try {
     const [customer, internal, executive, changelog, highlightsRaw] = await Promise.all([
-
       callGroq(apiKey,
         `Write customer-facing release notes. Tone: ${toneGuide}.
 ${antiHallucination}
@@ -93,14 +86,14 @@ ${antiHallucination}
 ${mstpTechnical}
 ${categories}
 Use markdown. Start with "# Release ${versionStr}${dateStr}".
-Preserve ticket IDs if present. Include technical detail, API changes, and implementation notes where stated. Max 150 words.`,
+Preserve ticket IDs if present. Include technical detail where stated. Max 150 words.`,
         input),
 
       callGroq(apiKey,
         `Write a 2-sentence executive summary.
 ${antiHallucination}
 ${mstpRules}
-Plain text only, no markdown, no bullets. Focus on business value and strategic impact based only on what is stated. Under 60 words.`,
+Plain text only, no markdown, no bullets. Focus on business value. Under 60 words.`,
         input),
 
       callGroq(apiKey,
