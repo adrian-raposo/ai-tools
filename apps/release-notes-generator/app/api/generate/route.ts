@@ -12,7 +12,7 @@ async function callGroq(apiKey: string, system: string, user: string): Promise<s
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "openai/gpt-oss-20b",
+      model: "qwen/qwen3-32b",
       messages: [{ role: "system", content: system }, { role: "user", content: user }],
       temperature: 0.2,
       max_tokens: 400,
