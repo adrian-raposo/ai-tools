@@ -279,7 +279,7 @@ export default function Home() {
           <p className="hero-eyebrow">
             <span>{typewriterText}</span><span className="twcursor" />
           </p>
-          <h1 className="hero-name">Adrian<br /><em>Raposo</em></h1>
+          <h1 className="hero-name">Adrian<br /><mark>Raposo</mark></h1>
           <p className="hero-tagline">I make documentation work — <strong>for the people who read it, the teams who write it, and the products that need it.</strong></p>
           <p className="hero-sub">13+ years in enterprise SaaS documentation, including 4+ years leading technical writing teams. Currently at Gainsight — managing a team, driving documentation strategy, and using AI to help writers work faster and focus on what matters.</p>
           <div className="hero-links">
