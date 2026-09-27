@@ -308,7 +308,8 @@ export default function Home() {
               { num: "13", count: true, label: "years in enterprise SaaS documentation" },
               { num: "4", count: true, label: "years leading technical writing teams" },
               { num: "200K+", count: false, label: "monthly Help Center users" },
-              { num: "5", count: true, label: "companies, always the person who owns the docs" },
+              { num: "400+", count: false, label: "articles migrated using AI workflows" },
+              { num: "3", count: false, label: "AI tools built and shipped" },
             ].map((s) => (
               <div key={s.label} className="astat">
                 <div className="astat-num" {...(s.count ? { "data-count": s.num } : {})}>{s.num}{s.count ? "+" : ""}</div>
